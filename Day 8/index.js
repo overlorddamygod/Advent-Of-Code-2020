@@ -61,19 +61,21 @@ const val = (instructions, parsed = true, map = true) => {
 
 const brute = (data) => {
     parsed = parse(data)
+
     for ( let i = 0; i < parsed.length; i++ ) {
         if (parsed[i]["op"] == "nop") {
             parsed[i]["op"] = "jmp"
             let _val = val(parsed)
             parsed[i]["op"] = "nop"
-            if (_val[1]) return _val
+            if (_val[1]) return [_val,i]
         }
         else if (parsed[i]["op"] == "jmp") {
             parsed[i]["op"] = "nop"
             let _val = val(parsed)
             parsed[i]["op"] = "jmp"
-            if (_val[1]) return _val
+            if (_val[1]) return [_val,i]
         }
         else continue;
     }
+    return false
 }
